@@ -47,6 +47,17 @@ class StaffController extends Controller
 
     public function showRequest(Request $request, ServiceRequest $serviceRequest)
     {
+        $user = $request->user();
+
+        // Check if the user is an admin or the assigned staff member
+        $isAssigned = $user->isStaff() &&
+            $user->staffProfile &&
+            $serviceRequest->assigned_to === $user->staffProfile->cab_staff_prfl_uin;
+
+        if (!$user->isAdmin() && !$isAssigned) {
+            abort(403, 'You are not authorized to view this request.');
+        }
+
         $serviceRequest->load(['customer', 'service', 'messages.sender']);
 
         return Inertia::render('Staff/RequestDetail', [
