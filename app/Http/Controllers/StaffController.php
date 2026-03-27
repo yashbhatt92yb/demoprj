@@ -47,6 +47,8 @@ class StaffController extends Controller
 
     public function showRequest(Request $request, ServiceRequest $serviceRequest)
     {
+        abort_if($serviceRequest->assigned_to !== $request->user()->staffProfile->cab_staff_prfl_uin, 403);
+
         $serviceRequest->load(['customer', 'service', 'messages.sender']);
 
         return Inertia::render('Staff/RequestDetail', [
@@ -56,6 +58,7 @@ class StaffController extends Controller
 
     public function updateStatus(Request $request, ServiceRequest $serviceRequest)
     {
+        abort_if($serviceRequest->assigned_to !== $request->user()->staffProfile->cab_staff_prfl_uin, 403);
         $request->validate(['status' => 'required|string']);
 
         try {
@@ -68,6 +71,7 @@ class StaffController extends Controller
 
     public function toggleChat(Request $request, ServiceRequest $serviceRequest)
     {
+        abort_if($serviceRequest->assigned_to !== $request->user()->staffProfile->cab_staff_prfl_uin, 403);
         $request->validate(['enabled' => 'required|boolean']);
 
         try {
