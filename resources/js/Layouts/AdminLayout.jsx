@@ -36,6 +36,24 @@ export default function AdminLayout({ header, children }) {
                                 >
                                     Service Requests
                                 </NavLink>
+                                <NavLink
+                                    href={route('admin.customers.index')}
+                                    active={route().current('admin.customers.*')}
+                                >
+                                    Customers
+                                </NavLink>
+                                <NavLink
+                                    href={route('admin.staff.index')}
+                                    active={route().current('admin.staff.*')}
+                                >
+                                    Staff
+                                </NavLink>
+                                <NavLink
+                                    href={route('admin.affiliates.index')}
+                                    active={route().current('admin.affiliates.*')}
+                                >
+                                    Affiliates
+                                </NavLink>
                             </div>
                         </div>
 
