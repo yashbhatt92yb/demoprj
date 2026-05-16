@@ -35,7 +35,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/service-requests', [AdminController::class, 'serviceRequests'])->name('service_requests');
         Route::post('/service-requests/{request}/assign', [AdminController::class, 'assignStaff'])->name('service_requests.assign');
-        // More admin routes
+
+        // Admin Customers
+        Route::resource('customers', \App\Http\Controllers\AdminCustomerController::class)->only(['index', 'show', 'edit', 'update']);
+        Route::post('/customers/{customer}/upload-document', [\App\Http\Controllers\AdminCustomerController::class, 'uploadDocument'])->name('customers.upload_document');
+
+        // Admin Staff
+        Route::resource('staff', \App\Http\Controllers\AdminStaffController::class)->except(['destroy']);
+
+        // Admin Affiliates
+        Route::resource('affiliates', \App\Http\Controllers\AdminAffiliateController::class)->except(['destroy']);
+        Route::post('/affiliates/{affiliate}/verify', [\App\Http\Controllers\AdminAffiliateController::class, 'verify'])->name('affiliates.verify');
     });
 
     // Staff Routes
